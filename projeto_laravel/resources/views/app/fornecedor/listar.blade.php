@@ -28,8 +28,8 @@
                             <th>Site</th>
                             <th>UF</th>
                             <th>E-Mail</th>
-                            <th></th>
-                            <th></th>
+                            <th>Editar</th>
+                            <th>Excluir</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@
                                 <td>{{ $fornecedor->uf }}</td>
                                 <td>{{ $fornecedor->email }}</td>
                                 <td>
-                                    <a href="{{ route('app.fornecedor.excluir') }}">
+                                    <a href="{{ route('app.fornecedor.excluir', $fornecedor->id) }}">
                                         Excluir
                                     </a> 
                                 </td>
@@ -54,6 +54,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $fornecedores->appends($request)->links() }}
             </div>
         </div>
     </div>

@@ -10,7 +10,9 @@ class FornecedorController extends Controller
     //
 
     public function index(){
+        echo 'oi';
         return view('app.fornecedor.index');
+
     }
 
     public function listar(Request $request){
@@ -18,17 +20,17 @@ class FornecedorController extends Controller
             ->where('site', 'like', '%'.$request->input('site').'%')
             ->where('uf', 'like', '%'.$request->input('uf').'%')
             ->where('email', 'like', '%'.$request->input('email').'%')
-            ->get();
+            ->paginate(2);
 
 
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores]);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
     }
 
     public function adicionar(Request $request){
 
         if($request->input('_token') != '' && $request->input('id') == ''){
             $regras = [
-                'nome' => 'required|mim:3|max:40',
+                'nome' => 'required|min:3|max:40',
                 'site' => 'required',
                 'uf' => 'required|min:2|max:2',
                 'email' => 'email',
@@ -64,4 +66,12 @@ class FornecedorController extends Controller
 
         return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor]);
     }
+    
+    public function excluir($id){
+        Fornecedor::find($id)->delete();
+
+        return redirect()->route('app.fornecedor');
+    }
+    
+
 }
